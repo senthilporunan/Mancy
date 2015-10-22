@@ -40,6 +40,7 @@ export default class ReplActiveInput extends React.Component {
     this.activeSuggestion = ReplActiveInputStore.getStore().activeSuggestion;
     this.commandReady = false;
     this.setDebouncedComplete();
+    this.done = false;
   }
 
   componentDidMount() {
@@ -132,6 +133,7 @@ export default class ReplActiveInput extends React.Component {
       command: command,
       plainCode: plainCode,
     });
+    this.done = true;
   }
 
   prompt(preserveCursor) {
@@ -179,6 +181,7 @@ export default class ReplActiveInput extends React.Component {
   }
 
   autoComplete(__, completion) {
+    if(this.done) { return; }
     let completeEntry = (suggestions, text) => {
       return suggestions.length != 1 || !text.endsWith(suggestions[0].text);
     };
